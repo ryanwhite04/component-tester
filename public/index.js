@@ -2,6 +2,7 @@ import { Port, rough, LitElement, html, css } from './modules.bundle.js';
 class IntegratedCircuit extends LitElement {
   static get properties() {
     return {
+      code: { type: String },
       connected: { type: Boolean },
       width: { type: Number },
       height: { type: Number },
@@ -10,6 +11,7 @@ class IntegratedCircuit extends LitElement {
   }
   constructor() {
     super();
+    this.code = localStorage.code ? JSON.parse(localStorage.code) : 4011;
     this.connected = false;
     this.width = this.height = 192;
     this.rasterized = false;
@@ -112,11 +114,20 @@ class IntegratedCircuit extends LitElement {
       }
     `;
   }
+  updateCode(event) {
+    console.log('updateCode', this.code, event.detail.selected)
+    this.code = event.detail.selected;
+    localStorage.setItem('size', JSON.stringify(this.code));
+  }
   render() {
     return html`
       <wired-button @click=${this.test}>Test</wired-button>
       <wired-button @click=${this.toggle}>${this.connected ? "Disconnect" : "Connect"}</wired-button>
-      <p>Component</p>
+      <p>Component ${this.code}</p>
+      <wired-combo id="code" @selected=${this.updateCode} selected=${this.code}>
+        <wired-item value="4011">4011 NAND Gate</wired-item>
+        <wired-item value="4013">4013 XOR Gate</wired-item>
+      </wired-combo>
       ${this.rasterized ? 
         html`<canvas width=${this.width} height=${this.height} id="component"></canvas>` :
         html`<svg width=${this.width} height=${this.height} id="component"></svg>`
