@@ -17,5 +17,5 @@ Bundle Imports
 Make sure you are in the directory for speedence
 
 ```bash
-deno --unstable --importmap=importmap.json modules.js modules.bundle.js
+deno --unstable --import-map=importmap.json public/modules.js public/modules.bundle.js
 ```
