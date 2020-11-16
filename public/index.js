@@ -121,7 +121,7 @@ class IntegratedCircuit extends LitElement {
   }
   render() {
     return html`
-      <wired-button @click=${this.test}>Test</wired-button>
+      <wired-button @click=${this.test} disabled=${!this.connected}>Test</wired-button>
       <wired-button @click=${this.toggle}>${this.connected ? "Disconnect" : "Connect"}</wired-button>
       <p>Component ${this.code}</p>
       <wired-combo id="code" @selected=${this.updateCode} selected=${this.code}>
