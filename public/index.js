@@ -86,6 +86,10 @@ class IntegratedCircuit extends LitElement {
     let rs = rough[this.rasterized ? 'canvas' : 'svg'](component, { options: {
       strokeWidth: 3,
       roughness: 1,
+      fill: '#000',
+      fillStyle: 'cross-hatch',
+      hachureGap: 8,
+      hachureAngle: 45,
     }});
     let parts = [];
     if (this.rasterized) {
@@ -93,12 +97,7 @@ class IntegratedCircuit extends LitElement {
     } else {
       [...component.children].map(child => child.remove());   
     }
-    parts.push(rs.rectangle(w/4, h/8, w/2, 6*h/8, {
-      fill: 'black',
-      fillStyle: 'cross-hatch',
-      hachureGap: 8,
-      hachureAngle: 45,
-    }));
+    parts.push(rs.rectangle(w/4, h/8, w/2, 6*h/8));
     for (let i = 0; i < 7; i++) {
       let y = h/8 + (i+1)*3*w/(4*8);
       parts.push(rs.line(w/8, y, w/4, y, { stroke: '#777' })); // x1, y1, x2, y2
@@ -121,7 +120,7 @@ class IntegratedCircuit extends LitElement {
   }
   render() {
     return html`
-      <wired-button @click=${this.test} disabled=${!this.connected}>Test</wired-button>
+      <wired-button @click=${this.test} ?disabled=${!this.connected}>Test</wired-button>
       <wired-button @click=${this.toggle}>${this.connected ? "Disconnect" : "Connect"}</wired-button>
       <p>Component ${this.code}</p>
       <wired-combo id="code" @selected=${this.updateCode} selected=${this.code}>
